@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Traveling</title>
+
+    <style>
+        .commandWrapper {
+            height: 450px;
+            width: 300px;
+            border: 2px solid #000;
+            display: inline-block;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+        img {
+            width: 500px;
+            vertical-align: top;
+        }
+        .buttons {
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 id="header"></h1>
+    <h3 id="playerLocation"></h3>
+    <h3 id="honey"></h3>
+    <div class="buttons">
+        <button class="btn btn-primary" onclick="move('north');">North</button>
+        <button class="btn btn-primary" onclick="move('west');">West</button>
+        <button class="btn btn-primary" onclick="move('east');">East</button>
+        <button class="btn btn-primary" onclick="move('south');">South</button>
+        <button class="btn btn-warning" onclick="pickUp();">Pick Up Honey</button>
+        <button class="btn btn-warning" onclick="drop();">Drop Honey</button>
+    </div>
+    <img src="hundredacrewood.png" alt="map">
+    <div class="commandWrapper">
+        <p id="commands"></p>
+    </div>
+    <script>
+            var str = [];
+            function commandVariables (){
+                var box = document.getElementById("header");
+                box.innerHTML = text;
+                var command = document.getElementById("commands");
+                command.innerHTML = "<p>" + str.join("</p><p>") + "</p>";
+                var plocation = document.getElementById("playerLocation");
+                plocation.innerHTML = "Your Location: " + player.location.character;
+                var honey = document.getElementById("honey");
+                honey.innerHTML = "Picked Up Honey: " + player.honey;
+            }
+            function move(move){
+                if(move == "north"){
+                    if(player.location.north == player.location.null){
+                        console.log("You may not go that way!");
+                        str.push("You may not go that way!");
+                    } else {
+                        player.location = player.location.north;
+                        console.log("You are now at " + player.location.character);
+                        str.push("You are now at " + player.location.character);
+                        player.location.greet();
+                    }
+                }
+                else if(move == "south"){
+                    if(player.location.south == player.location.null){
+                        console.log("You may not go that way!");
+                        str.push("You may not go that way!");
+                    }
+                    else {
+                        player.location = player.location.south;
+                        console.log("You are now at " + player.location.character);
+                        str.push("You are now at " + player.location.character);
+                        player.location.greet();
+                    }
+                    
+                }
+                else if(move == "east"){
+                    if(player.location.east == player.location.null){
+                        console.log("You may not go that way!");
+                        str.push("You may not go that way!");
+                    }
+                    else {
+                        player.location = player.location.east;
+                        console.log("You are now at " + player.location.character);
+                        str.push("You are now at " + player.location.character);
+                        player.location.greet();
+                    }
+                }
+                else if(move == "west"){
+                    if(player.location.west == player.location.null){
+                        console.log("You may not go that way!");
+                        str.push("You may not go that way!");
+                    }
+                    else {
+                        player.location = player.location.west;
+                        console.log("You are now at " + player.location.character);
+                        str.push("You are now at " + player.location.character);
+                        player.location.greet();
+                    }
+
+                }
+                commandVariables();
+                return player.location;
+            }
+    
+            function pickUp(){
+                if(player.location == bees){
+                    player.honey = true;
+                    console.log("You've picked up some honey");
+                    str.push("You've picked up some honey");
+                    var honey = document.getElementById("honey");
+                    honey.innerHTML = "Picked Up Honey: " + player.honey;
+                }
+                else{
+                    console.log("There is no honey at this location");
+                    str.push("There is no honey at this location");
+                }
+                commandVariables();
+            }
+    
+            function drop(){
+                if (player.location == m){
+                    player.honey = false;
+                    console.log("Congratulations! You delivered the honey to " + m.character);
+                    str.push("Congratulations! You delivered the honey to " + m.character);
+                }
+                else{
+                    console.log("Whoopes! This isn't the place that needs the honey!");
+                    str.push("Whoopes! This isn't the place that needs the honey!");
+                }
+                commandVariables();
+            }
+    
+            function mission(){
+                var characterLocations = [tigger, pooh, piglet, owl, robin, rabbit, gopher, kanga, eeyore, heffalumps];
+                var randomLocation = characterLocations[Math.floor(Math.random()*characterLocations.length)];
+                return randomLocation;
+            }
+            
+            var tigger = {
+                character: "Tigger",
+                greet: function(){
+                    console.log("The wonderful thing about Tiggers is Tiggers are wonderful things!");
+                }
+            };
+            var pooh = {
+                character: "Winnie the Pooh",
+                greet: function(){
+                    console.log("oh brother");
+                }
+            };
+            var piglet = {
+                character: "Piglet",
+                greet: function(){
+                    console.log("Oh d-d-d-d-dear! I wasn't expecting company!");
+                }
+            };
+            var bees = {
+                character: "Bees",
+                greet: function(){
+                    console.log("Bzzzzzz");
+                }
+            };
+            var owl = {
+                character: "Owl",
+                greet: function(){
+                    console.log("Hoo Hoo Hoo!");
+                }
+            };
+            var robin = {
+                character: "Christopher Robin",
+                greet: function(){
+                    console.log("Hello Im christopher robin, welcome to my house!");
+                }
+            };
+            var rabbit = {
+                character: "Rabbit",
+                greet: function(){
+                    console.log("Wheres my carrots!");
+                }
+            };
+            var gopher = {
+                character: "Gopher",
+                greet: function(){
+                    console.log("I'm the gopher");
+                }
+            };
+            var kanga = {
+                character: "Kanga",
+                greet: function(){
+                    console.log("I'm Kangas");
+                }
+            };
+            var eeyore = {
+                character: "Eeyore",
+                greet: function(){
+                    console.log("Hello im Eeyore!");
+                }
+            };
+            var heffalumps = {
+                character: "Heffalumps",
+                greet: function(){
+                    console.log("I'm Heffalumps!");
+                }
+            };
+    
+            // players
+            var player = {
+                location: tigger,
+                honey: false
+            }
+    
+    
+            // tigger
+            tigger.north = pooh;
+            tigger.south = null;
+            tigger.east = null;
+            tigger.west = null;
+            
+            // winnie the pooh
+            pooh.south = tigger;
+            pooh.west = piglet;
+            pooh.east = bees;
+            pooh.north = robin;
+    
+            // piglet
+            piglet.east = pooh;
+            piglet.north = owl;
+            piglet.west = null;
+            piglet.south = null;
+    
+            // bees
+            bees.west = pooh;
+            bees.north = rabbit;
+            bees.east = null;
+            bees.south = null;
+    
+            // owl
+            owl.south = piglet;
+            owl.east = robin;
+            owl.north = null;
+            owl.west = null;
+    
+            // robin
+            robin.west = owl;
+            robin.east = rabbit;
+            robin.north = kanga;
+            robin.south = pooh;
+    
+            // rabbit
+            rabbit.north = null;
+            rabbit.west = robin;
+            rabbit.east = gopher;
+            rabbit.south = bees;
+    
+            // gopher
+            gopher.west =rabbit;
+            gopher.north = null;
+            gopher.south = null;
+            gopher.east = null;
+    
+    
+            // kanga
+            kanga.south = robin;
+            kanga.north = eeyore;
+            kanga.east = null;
+            kanga.west = null;
+    
+            // eeyore
+            eeyore.south = kanga;
+            eeyore.east = heffalumps;
+            eeyore.west = null;
+            eeyore.north = null;
+    
+            // heffalumps
+            heffalumps.north = null;
+            heffalumps.south = null;
+            heffalumps.east = null;
+            heffalumps.west = eeyore;
+    
+            
+            // move("north");
+            var m = mission();
+            console.log(m.character + " is looking for honey! Can you help?");
+            var text = m.character + " is looking for honey! Can you help?";
+            var box = document.getElementById("header");
+            box.innerHTML = text;
+            var plocation = document.getElementById("playerLocation");
+            plocation.innerHTML = "Your location: " + player.location.character;
+            var honey = document.getElementById("honey");
+            honey.innerHTML = "Picked Up Honey: " + player.honey;
+        </script>
+</body>
+</html>
